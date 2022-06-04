@@ -134,9 +134,7 @@ class _WebPageViewState extends State<WebPageView> {
                 _controller.runJavascript(
                   """
                   var dataURI = "$dataURI";
-                  var inputtag = document.getElementById("${result.message}");
                   var byteString = atob( dataURI.split( "," )[1] ) ;
-                  var dl = dataURI.match( /(:)([-a-z\/]+)(;)/ );
                   var mimeType = "application/octet-stream";
                   for( var i=0, l=byteString.length, content=new Uint8Array( l ); l>i; i++ ) {
                     content[i] = byteString.charCodeAt( i ) ;
@@ -144,8 +142,9 @@ class _WebPageViewState extends State<WebPageView> {
                   var blob = new Blob( [ content ], {
                     type: mimeType ,
                   } ) ;
-
                   var imgFile = new File([blob], '${basename(fpath)}', {type: "application/octet-stream"});
+ 
+                  var inputtag = document.getElementById("${result.message}");
                   var dt = new DataTransfer();
                   dt.items.add(imgFile);
                   inputtag.files = dt.files;
